@@ -1,0 +1,37 @@
+apply plugin: 'groovy-gradle-plugin'
+apply plugin: 'maven-publish'
+
+
+dependencies {
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.android.tools.build:gradle:3.6.4'
+    implementation 'org.javassist:javassist:3.26.0-GA'
+}
+
+gradlePlugin {
+    plugins {
+        fatAarPlugin {
+            id = 'ev.plugin.fataar'//apply plugin: 'ev.plugin.fataar'
+            implementationClass = 'ev.plugin.fataar.FatAarPlugin'//plugin全路径
+        }
+    }
+}
+
+def isReleaseBuild() {
+    return !VERSION_NAME_FAT_AAR.contains("SNAPSHOT")
+}
+
+group = GROUP_ID
+version = VERSION_NAME_FAT_AAR
+
+publishing {
+    repositories {
+        maven {
+            url isReleaseBuild() ? MAVEN_RELEASE : MAVEN_SNAPSHOT
+            credentials {
+                username Local.ACCOUNT
+                password Local.PASSWORD
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+include ':fat-aar'
+include ':api-jar'
+include ':api-config'

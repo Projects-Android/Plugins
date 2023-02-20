@@ -1,0 +1,25 @@
+file('local.properties').withReader {
+    Properties props = new Properties()
+    props.load(it)
+    project.ext.Local = props
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
